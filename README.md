@@ -12,7 +12,7 @@
 ## 📂 Estrutura do Projeto
 
 ```bash
-LAB5-DEPLOY-DE-APP-WEB-COM-AWS
+Lab5-Deploy-de-app-web-com-docker-na-AWS-com-ECS
 ├── IaC/
 │   └── main.tf          # Configuração da Infraestrutura (Terraform)
 ├── .gitattributes
@@ -20,5 +20,4 @@ LAB5-DEPLOY-DE-APP-WEB-COM-AWS
 ├── LEIAME.txt           # Instruções adicionais
 ├── LICENSE
 └── README.md            # Documentação do projeto
-
 ```
