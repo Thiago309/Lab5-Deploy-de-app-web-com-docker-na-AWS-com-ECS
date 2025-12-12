@@ -1,0 +1,78 @@
+================================= Instruções para criação do conteiner LAB4 ================================================
+
+
+# Abra o terminal ou prompt de comando e navegue até a pasta onde você colocou os arquivos do Lab4 (não use espaço ou acento em nome de pasta)
+
+# Execute o comando abaixo para criar a imagem Docker no mesmo diretorio onde está o Dockerfile
+docker build -t dsa-terraform-image:lab4 .
+
+
+# Execute o comando abaixo para criar o container Docker no Linux ou wsl 2
+docker run -dit --name dsa-lab4 -v ./IaC:/iac dsa-terraform-image:lab4 /bin/bash
+
+
+[NOTA: No Windows você deve substituir ./IaC pelo caminho completo da pasta, por exemplo: C:\DSA\Cap08\IaC]
+
+
+# Verifique as versões do Terraform e do AWS CLI com os comandos abaixo no container docker dsa-lab4
+
+terraform version
+aws --version
+
+
+# ================================= Roteiro =========================================
+
+
+   ATENÇÃO: VOCÊ PRECISA TER O ANACONDA PYTHON INSTALADO LOCALMENTE PARA FAZER O DEPLOY LOCAL.
+
+1. Preparar o ambiente Python no WSL2 para execução local:
+
+	1- 	Vá para a sua pasta pessoal (Home): 
+		cd ~
+
+	2-	Realizar o download do arquivo com o comando wget:
+		wget https://repo.anaconda.com/archive/Anaconda3-2025.06-1-Linux-x86_64.sh
+	
+	3-	Prossiga com a instalação: Assim que o download terminar, execute o instalador:
+		bash Anaconda3-2025.06-1-Linux-x86_64.sh
+	
+
+2. Executar o script localmente para teste.
+	
+	1-	Acesso o diretorio onde se encontra o arquivo: 
+		/IaC/dsa_ml_app/
+
+	2-	Para criar o modelo ML, execute o comando:
+		python cria_modelo.py
+
+	3-	Para executar o app localmente, execute o comando: 
+		python app.py 
+
+
+3. Realizando o deploy da aplicação na AWS.
+
+	1-	Configurar as credenciais de acesso AWS CLI com o comando:
+		aws configure
+
+	2-	Verifcar se a conexão com a AWS funcionou listamos os buckets S3 existentes. Deve retornar nada, pois não existe buckets criados no inicio.:
+		aws s3 ls | awk '{print $NF}'
+
+	3-	No conteiner, vá até o diretório onde estão os scripts de criação terraform .tf:
+		IaC/dsa_iac_deploy/
+
+	4-	Iniciar o terraform execute o comando : 
+		terraform init
+
+	5-	Realizar deploy da aplicação:
+		terraform apply
+
+	6-	Para conferir, acesse o site da AWS.
+		Pesquise por EC2 -> Instancias -> Clique no ID da instância -> Conectar
+		-> selecione a opção: Conexão de instância do EC2 -> Click em conectar -> cd/ 
+		-> ls -la -> ps -ax | grep python 
+
+	7-	Verificar através do conteiner Docker.
+		aws s3 ls | awk '{print $NF}'
+
+	8- 	Destruir os serviços
+		terraform destroy
