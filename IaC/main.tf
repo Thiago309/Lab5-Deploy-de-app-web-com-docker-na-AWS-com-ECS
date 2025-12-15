@@ -3,12 +3,15 @@ resource "aws_ecs_cluster" "ecs-cluster" {
   name = "${var.project_name}-${var.env}-cluster"
 }
 
-# Define um grupo de logs do CloudWatch com um nome baseado nas variáveis do projeto e do ambiente
+# Define um grupo de logs do CloudWatch com um nome baseado nas variáveis do projeto e do ambiente.
+# Este serviço serve para o monitoramento de serviços AWS, ou seja, ele é o "dedo duro". Tudo que acontece
+# na sua conta AWS é registrado neste serviço.
 resource "aws_cloudwatch_log_group" "ecs-log-group" {
   name = "/ecs/${var.project_name}-${var.env}-task-definition"
 }
 
 # Recurso de definição de tarefa do ECS com as configurações necessárias, incluindo definições de container
+# [Task] no ECS
 resource "aws_ecs_task_definition" "ecs-task" {
   family                   = "${var.project_name}-${var.env}-task-definition"
   network_mode             = "awsvpc"
@@ -61,6 +64,7 @@ resource "aws_ecs_task_definition" "ecs-task" {
 }
 
 # Recurso de serviço ECS com tipo de inicialização Fargate, especificando a configuração de rede
+# [Service] no ECS
 resource "aws_ecs_service" "ecs-service" {
   name            = "${var.project_name}-service"
   launch_type     = "FARGATE"
@@ -76,6 +80,7 @@ resource "aws_ecs_service" "ecs-service" {
   }
 
   # Configura o balanceamento de carga para o serviço ECS
+  # Health Check é uma metrica de monitoramento enviada para o serviço cloudwatch que verifica a saúde da aplicação.
   health_check_grace_period_seconds = 0
   load_balancer {
     target_group_arn = aws_lb_target_group.ecs-target-group.arn
