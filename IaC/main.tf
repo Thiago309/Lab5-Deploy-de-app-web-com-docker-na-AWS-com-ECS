@@ -15,7 +15,12 @@ resource "aws_ecs_task_definition" "ecs-task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.cpu    # Unidades de CPU para a tarefa
   memory                   = var.memory # Memória em MB para a tarefa
-  execution_role_arn       = "arn:aws:iam::124645972365:role/ecsTaskExecutionRole"
+  # É o CPF ou o Endereço Completo de um recurso dentro da AWS.
+  # Por que ele existe?
+  # Na AWS, você pode ter um servidor chamado "Servidor-Web" e eu posso ter um servidor chamado "Servidor-Web" na minha conta. 
+  # Como a AWS sabe qual é qual? Pelo ARN.
+  # O ARN é um identificador único no mundo para aquele recurso específico. Utilizei o IP da conta AWS.
+  execution_role_arn       = "arn:aws:iam::124645972365:role/ecsTaskExecutionRole" 
   task_role_arn            = "arn:aws:iam::124645972365:role/ecsTaskExecutionRole"
 
   container_definitions = jsonencode([
@@ -79,7 +84,7 @@ resource "aws_ecs_service" "ecs-service" {
   }
 }
 
-# Define o Application Load Balancer (ALB)
+# Define o Application Load Balancer (ALB) é a "cara" pública da sua aplicação. É ele que possui o endereço DNS (ex: meusite.com) e o IP fixo. Ele recebe todo o tráfego da internet.
 resource "aws_lb" "ecs-alb" {
   name               = "${var.project_name}-${var.env}-alb"
   internal           = false
@@ -88,7 +93,7 @@ resource "aws_lb" "ecs-alb" {
   subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1]] 
 }
 
-# Define o Target Group
+# Define o Target Group. É um agrupamento lógico. O ALB não manda tráfego direto para um servidor solto; ele manda para um grupo.
 resource "aws_lb_target_group" "ecs-target-group" {
   name        = "${var.project_name}-${var.env}-target-group"
   port        = var.container_port
@@ -107,7 +112,8 @@ resource "aws_lb_target_group" "ecs-target-group" {
   }
 }
 
-# O Listener associa o ALB com o Target Group
+# O Listener associa o ALB com o Target Group. Eles ficam "escutando" em portas específicas (geralmente porta 80 para HTTP ou 443 para HTTPS).
+# O Load Balancer pode ter vários ouvidos. Um ouvido para conexões seguras, outro para não seguras, etc.
 resource "aws_lb_listener" "ecs-listener" {
   load_balancer_arn = aws_lb.ecs-alb.arn
   port              = 80
