@@ -1,3 +1,5 @@
+# Declaração dos valores das variaveis do script de automação.
+
 project_name            = "dsa-lab5"
 env                     = "dsa-env"
 vpc_cidr_block          = "10.0.0.0/16"
