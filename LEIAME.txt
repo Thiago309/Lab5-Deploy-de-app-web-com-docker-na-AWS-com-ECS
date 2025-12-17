@@ -14,7 +14,7 @@ docker run -dit --name dsa-lab5 -v ./IaC:/iac dsa-terraform-image:lab5 /bin/bash
 [NOTA: No Windows você deve substituir ./IaC pelo caminho completo da pasta, por exemplo: C:\DSA\Cap08\IaC]
 
 
-# Verifique as versões do Terraform e do AWS CLI com os comandos abaixo no container docker dsa-lab4
+# Verifique as versões do Terraform e do AWS CLI com os comandos abaixo no container docker dsa-lab5
 
 terraform version
 aws --version
