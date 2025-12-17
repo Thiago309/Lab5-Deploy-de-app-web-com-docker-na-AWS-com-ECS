@@ -2,9 +2,10 @@
 # https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "5.4.0"
+  version = "6.5.1"
 
   # Nome da VPC e CIDR block
+  # CIDR block é um intervalo de acesso de endereços de IP's 
   name = "ecs-vpc"
   cidr = var.vpc_cidr_block
 
