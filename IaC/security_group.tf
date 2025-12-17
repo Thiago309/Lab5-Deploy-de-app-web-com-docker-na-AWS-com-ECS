@@ -2,7 +2,7 @@
 # https://registry.terraform.io/modules/terraform-aws-modules/security-group/aws/latest
 module "container-security-group" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "5.1.0"
+  version = "5.3.1"
 
   # Define o nome do Security Group e associa com a VPC
   # Este é o grupo do serviço de container
