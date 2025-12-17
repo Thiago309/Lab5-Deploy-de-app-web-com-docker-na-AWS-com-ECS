@@ -19,7 +19,7 @@ module "container-security-group" {
       cidr_blocks = "0.0.0.0/0"
     }
   ]
-
+  # Lugar por onde AWS responde aos requerimentos, nete caso, por qualquer tipo de porta.
   egress_rules = ["all-all"]
 
   # Tag para o Security Group
