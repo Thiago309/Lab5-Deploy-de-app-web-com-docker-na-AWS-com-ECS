@@ -5,7 +5,7 @@ module "vpc" {
   version = "6.5.1"
 
   # Nome da VPC e CIDR block
-  # CIDR block é um intervalo de acesso de endereços de IP's 
+  # CIDR block é um intervalo de acesso de endereços IP's 
   name = "ecs-vpc"
   cidr = var.vpc_cidr_block
 
