@@ -1,3 +1,5 @@
+# Declaração de variáveis do script de automação.
+
 variable "project_name" {}
 variable "env" {}
 variable "vpc_cidr_block" {}
