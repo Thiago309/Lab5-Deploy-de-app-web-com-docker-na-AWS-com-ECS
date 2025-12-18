@@ -1,4 +1,4 @@
-================================= Instruções para criação do conteiner LAB4 ================================================
+================================= Instruções para criação do conteiner LAB5 ================================================
 
 
 # Abra o terminal ou prompt de comando e navegue até a pasta onde você colocou os arquivos do Lab4 (não use espaço ou acento em nome de pasta)
@@ -23,56 +23,73 @@ aws --version
 # ================================= Roteiro =========================================
 
 
-   ATENÇÃO: VOCÊ PRECISA TER O ANACONDA PYTHON INSTALADO LOCALMENTE PARA FAZER O DEPLOY LOCAL.
+1. Criar o arquivo main.tf (Cria o arquivo de execução da automação)
+	1 - Criar Cluster ECS
+	2 - Iniciar o serviço de monitoramento CloudWatch
+	3 - Definir as Tarefas do ECS
+	4 - Definir o Identificador ARN do serviço ECS
+	5 - Definir as portas de acesso do Container
+	6 - Adicionar os arquivos de variaveis de conteiner (env) que estão armazenadas no Bucket S3 no container
+	7 - Configurar o CloudWatch que foi iniciado no (passo 2) para monitorar o conteiner através de Logs
+	8 - Definir o Tipo de Serviço do ECS 
+	9 - Configurar o acesso de redes
+	10 - Configurar o ALB e Health Check do Cluster
+	11 - Definir o Target Group do Cluster
+	12 - Definir o Listener
 
-1. Preparar o ambiente Python no WSL2 para execução local:
+2. Criar o arquivo vpc.tf (Cria o Ambiente em Nuvem Privada Virtual do container)
+	1 - Criar a função modulo do serviço vpc
+	2 - Definir a versão do módulo
+	3 - Definir o nome da vpc
+	4 - Definir o CIDR Block (Intervalo de IP's para acessar a VPC)
+	5 - Definir a quantidade de zonas de disponibilizades (AZ's)
+	6 - Definir as subnets: Publicas e Privadas
+	7 - Definir as tags para os recursos 
 
-	1- 	Vá para a sua pasta pessoal (Home): 
-		cd ~
+3. Criar o arquivo security_group.tf (Cria o firewall do container)
+	1 - Criar a função modulo do serviço security group
+	2 - Definir a versão do módulo
+	3 - Definir o nome do security group
+	4 - Atribir o ip da vpc ao security group
+	5 - Configurar as regras de acesso (entrada e saída) ao security group
+	6 - Definir a tag do security group
 
-	2-	Realizar o download do arquivo com o comando wget:
-		wget https://repo.anaconda.com/archive/Anaconda3-2025.06-1-Linux-x86_64.sh
-	
-	3-	Prossiga com a instalação: Assim que o download terminar, execute o instalador:
-		bash Anaconda3-2025.06-1-Linux-x86_64.sh
-	
+4. Criar o arquivo variables.tf (Declara as variaveis de ambiente da automação)
+	1 - Declarar as variaveis necessarias para realizar a automação do projeto
+	2 - definir a variavel health check com "/". Significa verificar todos os serviços no container
 
-2. Executar o script localmente para teste.
-	
-	1-	Acesso o diretorio onde se encontra o arquivo: 
-		/IaC/dsa_ml_app/
+5. Criar o arquivo terraform.tfvars (Atribuir os valores para as variaveis de ambiente da automação)
+	1 - Atribui os valores às variaveis necessarias para realizar a automação do projeto
 
-	2-	Para criar o modelo ML, execute o comando:
-		python cria_modelo.py
+6. Criar o arquivo outputs.tf (Retorna os valores dos serviços criados logo após o fim do processo da automação)
+	1 - Retornar o dns do ALB (Balanceador de Carga da Aplicação para que eu possa ter acesso a aplicação upada)
 
-	3-	Para executar o app localmente, execute o comando: 
-		python app.py 
+7. Criar o arquivo provider.tf (Definir o provedor de Nuvem que irá utilizar)
+	1 - Criar o arquivo definindo somente o provedor. As demais configurações são armazenadas no arquivo terraformr.tfvars que serve
+	para armazenar essas informações.
 
+8. Preparar a maquina cliente (Container Local para executar o Script de automação terraform futuramente.)
+	1 - Realizar o passo-passo que está escrito neste arquivo LEIAME.txt (Instruções para criação do conteiner LAB5)
 
-3. Realizando o deploy da aplicação na AWS.
+9. Criar um Bucket S3 (para definir o ARN do Arquivo de Variaveis de ambiente)
+	1 - Criar o arquivo vars.env
+	2 - Armazenar o arquivo (upload) no Bucket S3
 
-	1-	Configurar as credenciais de acesso AWS CLI com o comando:
-		aws configure
+10. Definir função IAM - Role (Para gerenciar a segurança dos serviços no cluster do ECS)
+	1 - Criar um Perfil com o mesmo nome que está no arquivo main.tf (ecsTaskExecutionRole)
+	2 - Definir o caso de uso Serviço da AWS (pois será usada para a comunicação interna entre os serviços AWS)
+	3 - Definir o caso de uso, como: Elastic Container Service (ECS)
+	4 - Definir o tipo do caso de uso, como: Elastic Container Service Task (Cria serviço e a Tarefa no momento da configuração do deploy da imagem do 
+		container docker que será publicado pelo ECS)
+	5 - Definir Politicas de permissões. Pesquisar por ecs e selecionar: AmazonECS_FullAccess e AmazonECSTaskExecutionRolePolicy (Serve para deixar claro
+		para que serve a politica que está sendo criada)
+	6 - Definir Politicas de permissões na mesma página e pesquisar por s3 e selecionar: AmazonS3FullAccess
+	7 - Customizar o nivel de previlegio da politica da aplicação no dia-a-dia, dependendo do que é necessario para a aplicação
+	8 - Clicar em próximo
+	9 - Definir o nome da função como: ecsTaskExecutionRole (o mesmo do arquivo main.tf )
+	10 - Informar descrição
+	11 - Criar o Perfil
+	12 - Copiar o ARN da função IAM e colocar na variavel de tarefa da função arn (task_role_arn)
 
-	2-	Verifcar se a conexão com a AWS funcionou listamos os buckets S3 existentes. Deve retornar nada, pois não existe buckets criados no inicio.:
-		aws s3 ls | awk '{print $NF}'
-
-	3-	No conteiner, vá até o diretório onde estão os scripts de criação terraform .tf:
-		IaC/dsa_iac_deploy/
-
-	4-	Iniciar o terraform execute o comando : 
-		terraform init
-
-	5-	Realizar deploy da aplicação:
-		terraform apply
-
-	6-	Para conferir, acesse o site da AWS.
-		Pesquise por EC2 -> Instancias -> Clique no ID da instância -> Conectar
-		-> selecione a opção: Conexão de instância do EC2 -> Click em conectar -> cd/ 
-		-> ls -la -> ps -ax | grep python 
-
-	7-	Verificar através do conteiner Docker.
-		aws s3 ls | awk '{print $NF}'
-
-	8- 	Destruir os serviços
-		terraform destroy
+11. Realizar deploy da Automação
+	1 - 
