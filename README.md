@@ -14,11 +14,18 @@
 
 ```bash
 Lab5-Deploy-de-app-web-com-docker-na-AWS-com-ECS/
-├── IaC/
-│   └── main.tf          # Configuração da Infraestrutura (Terraform)
+├── IaC/                     # Diretório dos arquivos da automação para deploy da aplicação
+│   ├── main.tf              # Orquestrador principal da infraestrutura do cluster ECS
+│   ├── outputs.tf           # Definição das saídas (ALB - Aplication Load Balancer)
+│   ├── providers.tf         # Configuração do provedor (AWS)
+│   ├── security_group.tf    # Regras de Firewall e Grupos de Segurança
+│   ├── terraform.tfvars     # Atribuição de valores para as variáveis
+│   ├── variables.tf         # Declaração das variáveis do projeto
+│   ├── vars.env             # Variáveis de ambiente locais
+│   └── vpc.tf               # Configuração de Rede (VPC, Subnets)
 ├── .gitattributes
-├── Dockerfile           # Configuração da imagem Docker
-├── LEIAME.txt           # Instruções adicionais
+├── Dockerfile               # Configuração da imagem Docker da aplicação
+├── LEIAME.txt               # Instruções adicionais
 ├── LICENSE
-└── README.md            # Documentação do projeto
+└── README.md                # Documentação do projeto
 ```
