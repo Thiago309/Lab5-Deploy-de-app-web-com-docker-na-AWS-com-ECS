@@ -102,10 +102,17 @@ aws --version
 
 	git config --global --add safe.directory '*'
 
-	ou (mais especifico)
+	ou (diretorio mais especifico)
 
 	git config --global --add safe.directory /iac/.terraform/modules/
 
 	4 - Executar o terraform apply
+	5 - Copiar o link dns do alb que é retornado no terminal logo após o fim da automação
+	6 - Acessar o link que irá retornar a imagem generica do nginx
 
-	5 - 
+12. Apresentar os recursos criados com a automação do terraform
+	1 - Acessar o serviço VPC
+	2 - Clicar no ID da VPC criada e mostrar os detalhes: Mapa de Recursos, CIDR Block e Etc
+	3 - Acessar o serviço ECS
+	4 - Apresentar o cluster criados
+	5 - Clicar no nome da VPC cluster e mostrar os detalhes: ARN, Serviços
