@@ -92,4 +92,20 @@ aws --version
 	12 - Copiar o ARN da função IAM e colocar na variavel de tarefa da função arn (task_role_arn)
 
 11. Realizar deploy da Automação
-	1 - 
+	1 - Configurar a conexão remota com o ambiente AWS com o comando: aws configure 
+	2 - Executar o comando: terraform init
+
+	3 - Ao executar o comando anterior, ocorre um error de imagem (dubious ownership). Esse error significa que O Git (dentro do contêiner) percebeu 
+	que a pasta onde ele está tentando gravar pertence a um usuário diferente do usuário que está rodando o comando. Isso é super comum ao usar Docker 
+	com volumes montados no Windows/WSL (-v ./IaC:/iac). O Windows é o "dono" do arquivo, mas o Linux do contêiner é o "usuário". Para solucionar este
+	error, precisei dizer ao Git para "confiar" nessa pasta. Executei este comando dentro do meu terminal (no contêiner ou onde está rodando o Terraform):
+
+	git config --global --add safe.directory '*'
+
+	ou (mais especifico)
+
+	git config --global --add safe.directory /iac/.terraform/modules/
+
+	4 - Executar o terraform apply
+
+	5 - 
