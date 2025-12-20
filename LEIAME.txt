@@ -115,4 +115,17 @@ aws --version
 	2 - Clicar no ID da VPC criada e mostrar os detalhes: Mapa de Recursos, CIDR Block e Etc
 	3 - Acessar o serviço ECS
 	4 - Apresentar o cluster criados
-	5 - Clicar no nome da VPC cluster e mostrar os detalhes: ARN, Serviços
+	5 - Clicar no nome da ECS cluster e mostrar os detalhes: ARN
+	6 - Acessar o serviço e mostrar os Status como: Tipo de ELB, Porta, ARN, Status, Tarefa e o Caminho da verificação de Integridade
+	7 - Acessar Definições de Tarefa do ECS
+	8 - Apresentar: Visão Geral da Tarefa: versão da task, a função iam e o Arquivo JSON com os Detalhes da Tarefa.
+	9 - Acessar o Applicaton Load Balancer (ALB)
+	10 - Mostrar Detalhes do ALB
+
+13. Encerramento do lab5
+	1 - Lembrar da importancia do arquivo terraform.tfstate para o encerramento dos serviços
+	2 - Realizar o terraform destroy
+	3 - Apagar o objeto do bucket s3 vars.env
+	4 - Destruir o bucket s3 
+	5 - Apagar a função do ECS criada no IAM
+	6 - Encerramento do Video.
