@@ -125,6 +125,7 @@ aws --version
 13. Encerramento do lab5
 	1 - Lembrar da importancia do arquivo terraform.tfstate para o encerramento dos serviços
 	2 - Realizar o terraform destroy
+	3 - verificar se os serviços foram encerrados: VPC, ALB e o Cluster
 	3 - Apagar o objeto do bucket s3 vars.env
 	4 - Destruir o bucket s3 
 	5 - Apagar a função do ECS criada no IAM
