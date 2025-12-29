@@ -36,7 +36,7 @@ RUN mkdir -p /tmp/aws_install && \
     cd / && \
     rm -rf /tmp/aws_install
 
-# Criar a pasta /IaC-AWS dentro do container
+# Criar a pasta /iac dentro do container
 RUN mkdir /iac
 
 # Cria um volume no container
