@@ -1,7 +1,7 @@
 ================================= Instruções para criação do conteiner LAB5 ================================================
 
 
-# Abra o terminal ou prompt de comando e navegue até a pasta onde você colocou os arquivos do Lab4 (não use espaço ou acento em nome de pasta)
+# Abra o terminal ou prompt de comando e navegue até a pasta onde você colocou os arquivos do Lab5 (não use espaço ou acento em nome de pasta)
 
 # Execute o comando abaixo para criar a imagem Docker no mesmo diretorio onde está o Dockerfile
 docker build -t dsa-terraform-image:lab5 .
