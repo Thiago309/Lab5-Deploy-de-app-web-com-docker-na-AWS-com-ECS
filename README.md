@@ -29,3 +29,8 @@ Lab5-Deploy-de-app-web-com-docker-na-AWS-com-ECS/
 ├── LICENSE
 └── README.md                # Documentação do projeto
 ```
+
+---
+
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/T99Nf8R891o)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/thiagoviniciusbsantos/)
